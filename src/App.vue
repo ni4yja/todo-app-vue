@@ -1,81 +1,61 @@
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
-export default {
-  name: 'App',
-  setup() {
-    const newTodo = ref('')
-    const newTodoType = ref('Personal')
-    const defaultData = [
-      {
-        done: false,
-        content: 'Write a blog post',
-        type: 'Personal',
-        id: Date.now(),
-      },
-    ]
-    const todosData = JSON.parse(localStorage.getItem('todos')) || defaultData
-    const todos = ref(todosData)
-    const filters = ref(['All', 'Personal', 'Work', 'Other'])
-    const activeFilter = ref('All')
-    const getTodos = computed(() => {
-      if (activeFilter.value === 'All')
-        return todos.value
-
-      return todos.value.filter(item => item.type === activeFilter.value)
-    })
-    const emptyNote = computed(() => {
-      return `There is no tasks with type ${activeFilter.value} so far. Please, add some!`
-    })
-    function addTodo() {
-      if (newTodo.value) {
-        todos.value.push({
-          done: false,
-          content: newTodo.value,
-          type: newTodoType.value,
-          id: Date.now(),
-        })
-        resetTodo()
-      }
-      saveData()
-    }
-    function doneTodo(todo) {
-      todo.done = !todo.done
-      saveData()
-    }
-    function removeTodo(id) {
-      todos.value = todos.value.filter((todo) => {
-        return todo.id !== id
-      })
-      saveData()
-    }
-    function saveData() {
-      const storageData = JSON.stringify(todos.value)
-      localStorage.setItem('todos', storageData)
-    }
-    function filterTodo(type) {
-      activeFilter.value = type
-    }
-    function resetTodo() {
-      newTodo.value = ''
-      newTodoType.value = 'Personal'
-    }
-    return {
-      todos,
-      newTodo,
-      newTodoType,
-      filters,
-      getTodos,
-      emptyNote,
-      addTodo,
-      doneTodo,
-      removeTodo,
-      saveData,
-      filterTodo,
-      resetTodo,
-      activeFilter,
-    }
+const newTodo = ref('')
+const newTodoType = ref('Personal')
+const defaultData = [
+  {
+    done: false,
+    content: 'Write a blog post',
+    type: 'Personal',
+    id: Date.now(),
   },
+]
+const todosData = JSON.parse(localStorage.getItem('todos')) || defaultData
+const todos = ref(todosData)
+const filters = ref(['All', 'Personal', 'Work', 'Other'])
+const activeFilter = ref('All')
+const getTodos = computed(() => {
+  if (activeFilter.value === 'All')
+    return todos.value
+
+  return todos.value.filter(item => item.type === activeFilter.value)
+})
+const emptyNote = computed(() => {
+  return `There is no tasks with type ${activeFilter.value} so far. Please, add some!`
+})
+function addTodo() {
+  if (newTodo.value) {
+    todos.value.push({
+      done: false,
+      content: newTodo.value,
+      type: newTodoType.value,
+      id: Date.now(),
+    })
+    resetTodo()
+  }
+  saveData()
+}
+function doneTodo(todo) {
+  todo.done = !todo.done
+  saveData()
+}
+function removeTodo(id) {
+  todos.value = todos.value.filter((todo) => {
+    return todo.id !== id
+  })
+  saveData()
+}
+function saveData() {
+  const storageData = JSON.stringify(todos.value)
+  localStorage.setItem('todos', storageData)
+}
+function filterTodo(type) {
+  activeFilter.value = type
+}
+function resetTodo() {
+  newTodo.value = ''
+  newTodoType.value = 'Personal'
 }
 </script>
 
