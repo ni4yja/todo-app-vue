@@ -1,5 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
+import { loadImage } from './composable/load-image'
 
 const newTodo = ref('')
 const newTodoType = ref('Personal')
@@ -57,6 +59,10 @@ function resetTodo() {
   newTodo.value = ''
   newTodoType.value = 'Personal'
 }
+
+onMounted(async () => {
+  await Promise.all([loadImage('https://doodleipsum.com/700?i=b2a7f828acad27e884b0aabcf6f10ab6'), loadImage('https://images.unsplash.com/photo-1718551260047-e5b4a92e46b6?q=80&w=2667&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')])
+})
 </script>
 
 <template>
@@ -140,6 +146,7 @@ function resetTodo() {
           src="https://doodleipsum.com/700?i=b2a7f828acad27e884b0aabcf6f10ab6"
           alt="a picture of man relaxing and drinking tea"
         >
+        <img src="https://images.unsplash.com/photo-1718551260047-e5b4a92e46b6?q=80&w=2667&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="test">
       </section>
     </template>
   </div>
